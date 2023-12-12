@@ -1,11 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
 import createDataContext from './createDataContext';
-import { userType } from '@/types';
-import { getCookie } from '@/utils/cookies';
+import { userType, AppStateType, productType } from '@/types';
 
-const reducer = (state: any, action: any) => {
+const reducer = (state: AppStateType, action: any) => {
   switch (action.type) {
     case 'SET_AUTH':
       return {
@@ -17,7 +15,7 @@ const reducer = (state: any, action: any) => {
     case 'SET_PAGE_LOADER':
       return {
         ...state,
-        setPageLevelLoader: action.payload,
+        pageLevelLoader: action.payload,
       };
 
     case 'SET_COMPONENT_LOADER':
@@ -26,8 +24,14 @@ const reducer = (state: any, action: any) => {
         componentLevelLoader: {
           ...state.componentLevelLoader,
           loading: action.payload.loading,
-          id: action.payload.id || ''
+          id: action.payload.id || '',
         },
+      };
+
+    case 'SET_PRODUCT':
+      return {
+        ...state,
+        updatedProduct: action.payload,
       };
   }
 };
@@ -62,12 +66,21 @@ const setComponentLevelLoader =
     });
   };
 
+const setUpdatedProduct =
+  (dispatch: React.Dispatch<any>) => (product: productType) => {
+    dispatch({
+      type: 'SET_PRODUCT',
+      payload: product,
+    });
+  };
+
 export const { Provider, Context } = createDataContext(
   reducer,
-  { setAuth, setPageLevelLoader, setComponentLevelLoader },
+  { setAuth, setPageLevelLoader, setComponentLevelLoader, setUpdatedProduct },
   {
     isAuthenticated: null,
     user: {},
+    updatedProduct: null,
     pageLevelLoader: false,
     componentLevelLoader: {
       loading: false,

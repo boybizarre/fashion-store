@@ -7,7 +7,7 @@ import User from '@/models/user';
 const schema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().email().required(),
-  password: Joi.string().min(6).required(),
+  password: Joi.string().min(8).required(),
   role: Joi.string().required(),
 });
 
@@ -22,9 +22,10 @@ export const POST = async (req: Request) => {
   const { error } = schema.validate({ name, email, password, role });
 
   if (error) {
+    console.log(error);
     return NextResponse.json({
       success: false,
-      message: email.details[0],
+      message: error.details[0].message,
     });
   }
 
@@ -50,7 +51,7 @@ export const POST = async (req: Request) => {
         message: 'Account created successfully!',
       });
     }
-  } catch (err) {
+  } catch (err: any) {
     console.log('Error registering user!');
     return NextResponse.json({
       success: false,

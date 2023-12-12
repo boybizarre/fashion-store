@@ -187,18 +187,24 @@ export const AvailableSizes = [
     label: 'L',
   },
 ];
-
+ 
 export const firebaseConfig = {
-  apiKey: 'API_KEY',
-  authDomain: 'AUTH_DOMAIN',
-  projectId: 'PROJECT_ID',
-  storageBucket: 'STROAGE_BUCKET',
-  messagingSenderId: 'MESSAGING_SENDER_ID',
-  appId: 'APP_ID',
-  measurementId: 'MEASUREMENT_ID',
+  apiKey: 'AIzaSyC2vQAjn58ePWE103_ll7rHe6sPxicWwm8',
+
+  authDomain: 'nextjs-fashionstore.firebaseapp.com',
+
+  projectId: 'nextjs-fashionstore',
+
+  storageBucket: 'nextjs-fashionstore.appspot.com',
+
+  messagingSenderId: '1040480623407',
+
+  appId: '1:1040480623407:web:96150cb8b69f69b2ea9fda',
+
+  measurementId: 'G-YR0LBFGL0K',
 };
 
-export const firebaseStroageURL = 'YOUR_FIREBASE_STROAGE_URL';
+export const firebaseStorageURL = 'gs://nextjs-fashionstore.appspot.com';
 
 export const addNewAddressFormControls = [
   {

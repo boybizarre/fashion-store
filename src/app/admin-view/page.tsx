@@ -1,9 +1,7 @@
-
-
-
-export default function AdminView() {
-
+export default async function AdminView() {
   return (
-    <div> Admin View </div>
+    <div>
+      Admin View
+    </div>
   )
 }

@@ -4,15 +4,14 @@ import { useState, useContext, useEffect } from 'react';
 import { loginUser } from '@/services/login';
 import { loginFormControls } from '@/utils/options';
 import { useRouter } from 'next/navigation';
-import { userType } from '@/types';
 import { Context as AppContext } from '@/context';
-import { AppContextType } from '@/types';
+import { AppContextType, userType } from '@/types';
 import { setCookie } from '@/utils/cookies';
 import { toast } from 'react-toastify';
 
 // components
 import InputComponent from '@/components/FormElements/InputComponent';
-import ComponentLevelLoader from '@/components/Loader/componentLevel';
+import ComponentLevelLoader from '@/components/Loader/componentLevelLoader';
 
 // render
 export default function Login() {
@@ -51,16 +50,16 @@ export default function Login() {
     console.log(res);
 
     if (res.success) {
+      setComponentLevelLoader(false);
       toast.success(res.message);
       setAuth(res.success, res?.data?.user);
       setFormData(initialFormData);
       setCookie('auth_token', res?.data?.token, res?.data?.expiresIn);
       localStorage.setItem('user', JSON.stringify(res?.data?.user));
-      setComponentLevelLoader(false);
     } else {
+      setComponentLevelLoader(false);
       toast.error(res.message);
       setAuth(false, null);
-      setComponentLevelLoader(false);
     }
   }
 
@@ -97,7 +96,7 @@ export default function Login() {
                           [controlItem.id]: e.target.value,
                         });
                       }}
-                      value={formData[controlItem.id]}
+                      value={formData[controlItem.id as keyof typeof formData]}
                     />
                   ) : null
                 )}

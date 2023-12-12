@@ -19,21 +19,23 @@ export const setCookie = (
 
 // Function to get a cookie by name
 export const getCookie = (name: string) => {
-  const cookieString = decodeURIComponent(document.cookie);
-  const cookieArray = cookieString.split(';');
+  if (typeof window !== 'undefined') {
+    const cookieString = decodeURIComponent(document.cookie);
+    const cookieArray = cookieString.split(';');
 
-  // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < cookieArray.length; i++) {
-    const cookie = cookieArray[i].trim();
-    // Check if the cookie starts with the desired name
-    if (cookie.startsWith(`${name}=`)) {
-      // Extract and return the cookie's value
-      return cookie.substring(name.length + 1);
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < cookieArray.length; i++) {
+      const cookie = cookieArray[i].trim();
+      // Check if the cookie starts with the desired name
+      if (cookie.startsWith(`${name}=`)) {
+        // Extract and return the cookie's value
+        return cookie.substring(name.length + 1);
+      }
     }
-  }
 
-  // Return null if the cookie is not found
-  return null;
+    // Return null if the cookie is not found
+    return null;
+  }
 };
 
 // Function to clear a cookie by setting its expiration to the past

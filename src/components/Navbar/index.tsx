@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, Fragment, useContext } from 'react';
+import { useState, Fragment, useContext, useEffect } from 'react';
 import { adminNavOptions, navOptions } from '@/utils/options';
 import { Context as AppContext } from '@/context';
 import { AppContextType, userType } from '@/types';
@@ -9,7 +9,6 @@ import { usePathname, useRouter } from 'next/navigation';
 // components
 import CommonModal from '../CommonModal';
 import { clearCookie } from '@/utils/cookies';
-
 
 // types
 interface NavItemsProps {
@@ -61,8 +60,9 @@ export default function Navbar() {
   const pathName = usePathname();
 
   const {
-    state: { isAuthenticated, user },
+    state: { isAuthenticated, user, updatedProduct },
     setAuth,
+    setUpdatedProduct,
   } = useContext<AppContextType>(AppContext);
 
   // console.log(user, isAuthenticated, 'navbar');
@@ -78,6 +78,12 @@ export default function Navbar() {
 
   console.log(pathName);
 
+  useEffect(() => {
+    if (pathName !== '/admin-view/add-product' && updatedProduct !== null) {
+      setUpdatedProduct(null);
+    }
+  }, [pathName]);
+
   return (
     <>
       <nav className='bg-white fixed w-full z-20 top-0 left-0 border-b border-gray-200'>
@@ -86,7 +92,7 @@ export default function Navbar() {
             onClick={() => router.push('/')}
             className='flex items-center cursor-pointer'
           >
-            <span className='slef-center text-2xl font-semibold whitespace-nowrap'>
+            <span className='self-center text-2xl font-semibold whitespace-nowrap'>
               Fashion Store
             </span>
           </div>
@@ -101,28 +107,24 @@ export default function Navbar() {
             {user?.role === 'admin' ? (
               isAdminView ? (
                 <button className='button' onClick={() => router.push('/')}>
-                  {' '}
-                  Client View{' '}
+                  Client View
                 </button>
               ) : (
                 <button
                   className='button'
                   onClick={() => router.push('/admin-view')}
                 >
-                  {' '}
-                  Admin View{' '}
+                  Admin View
                 </button>
               )
             ) : null}
             {isAuthenticated ? (
               <button onClick={handleLogout} className='button'>
-                {' '}
-                Logout{' '}
+                Logout
               </button>
             ) : (
               <button onClick={() => router.push('/login')} className='button'>
-                {' '}
-                Login{' '}
+                Login
               </button>
             )}
 

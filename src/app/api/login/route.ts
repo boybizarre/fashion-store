@@ -22,12 +22,12 @@ export const POST = async (req: Request) => {
   if (error) {
     return NextResponse.json({
       success: false,
-      message: email.details[0],
+      message: error.details[0].message,
     });
   }
 
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select('+password');
     if (!user) {
       return NextResponse.json({
         success: false,

@@ -10,9 +10,7 @@ export const loginUser = async (formData: userType) => {
       body: JSON.stringify(formData),
     });
 
-    return res.json();
-
-    // return data;
+    return await res.json();
     
   } catch (err) {
     console.log('Error', err);

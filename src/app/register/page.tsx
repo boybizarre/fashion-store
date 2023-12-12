@@ -13,7 +13,7 @@ import { toast } from 'react-toastify';
 // components
 import InputComponent from '@/components/FormElements/InputComponent';
 import SelectComponent from '@/components/FormElements/SelectComponent';
-import ComponentLevelLoader from '@/components/Loader/componentLevel';
+import ComponentLevelLoader from '@/components/Loader/componentLevelLoader';
 
 const initialFormData: userType = {
   name: '',
@@ -55,6 +55,7 @@ export default function Register() {
     if (res.success) {
       toast.success(res.message);
       setIsRegistered(true);
+      console.log(isRegistered, 'isRegistered');
       setPageLevelLoader(false);
       setFormData(initialFormData);
     } else {
@@ -107,7 +108,9 @@ export default function Register() {
                             [controlItem.id]: e.target.value,
                           });
                         }}
-                        value={formData[controlItem.id]}
+                        value={
+                          formData[controlItem.id as keyof typeof formData]
+                        }
                       />
                     ) : controlItem.componentType === 'select' ? (
                       <SelectComponent
@@ -120,7 +123,9 @@ export default function Register() {
                             [controlItem.id]: e.target.value,
                           });
                         }}
-                        value={formData[controlItem.id]}
+                        value={
+                          formData[controlItem.id as keyof typeof formData]
+                        }
                       />
                     ) : null
                   )}

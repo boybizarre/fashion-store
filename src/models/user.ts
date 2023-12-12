@@ -11,25 +11,31 @@ export interface IUser {
 }
 
 const userSchema = new Schema<IUser>({
-  name: String,
+  name: {
+    type: String,
+    // required: [true, 'Please tell us your name'],
+    // trim: true,
+  },
 
   email: {
     type: String,
-    required: true,
-    unique: true,
+    // required: true,
+    // unique: true,
   },
 
   password: {
     type: String,
-    required: true,
+    // required: [true, 'Please provide a password'],
+    // minlength: 8,
+    select: false,
   },
 
   role: {
     type: String,
-    required: true,
-    enum: {
-      values: ['customer', 'admin'],
-    },
+    // required: true,
+    // enum: {
+    //   values: ['customer', 'admin'],
+    // },
   },
 });
 
