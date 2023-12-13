@@ -25,6 +25,8 @@ export default function ProductTile({ item }: {item: productType} ) {
           </p>
         </div>
       ) : null}
+
+      {/* price and discount price */}
       <div className="my-4 mx-auto flex w-10/12 flex-col items-start justify-between">
         <div className="mb-2 flex">
           <p

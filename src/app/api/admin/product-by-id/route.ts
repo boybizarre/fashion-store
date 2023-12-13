@@ -7,30 +7,27 @@ export const dynamic = 'force-dynamic';
 export async function GET(req: Request) {
   try {
     await connectToDB();
-    const category = new URL(req.url).searchParams.get('category');
-
-    if (!category)
+    const id = new URL(req.url).searchParams.get('id');
+    if (!id) {
       return NextResponse.json({
         success: false,
-        message: 'Product category is required!',
+        message: 'Product ID is required!',
       });
+    }
 
-    const products = await Product.find({ category });
+    const product = await Product.findById({ _id: id });
 
-    if (products) {
-      return NextResponse.json({
-        success: true,
-        data: products,
-      });
+    if (product) {
+      return NextResponse.json({ success: true, data: product });
     } else {
       return NextResponse.json({
         success: false,
         status: 404,
-        message: 'No category found!',
+        message: 'No Product found',
       });
     }
   } catch (error: any) {
-    console.log('Error fetching categories', error);
+    console.log('Error fetching products', error);
     return NextResponse.json({
       success: false,
       message: 'Something went wrong! Please try again later!',

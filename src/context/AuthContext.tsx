@@ -14,9 +14,10 @@ export const AuthContext = ({ children }: { children: React.ReactNode }) => {
   // console.log(isAuthenticated, 'auth home page');
 
   useEffect(() => {
-    // console.log(getCookie('auth_token'), 'cookie home page');
+    console.log(getCookie('auth_token'), 'cookie home page');
+    console.log(JSON.parse(localStorage.getItem('user') as string), 'user')
 
-    if (getCookie('auth_token')) {
+    if (getCookie('auth_token') !== null) {
       const user = JSON.parse(localStorage.getItem('user') || ({} as string));
       setAuth(true, user);
     } else {

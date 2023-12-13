@@ -2,10 +2,15 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+
+// components
 import ProductButton from './ProductButtons';
 import ProductTile from './ProductTile';
+
+// types
 import { productType } from '@/types';
 
+// this component takes an item that this card is going to render its details
 export default function CommonListing({ data }: { data: productType[] }) {
   const router = useRouter();
 

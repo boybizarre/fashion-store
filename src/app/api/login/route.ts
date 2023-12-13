@@ -47,7 +47,7 @@ export const POST = async (req: Request) => {
 
     const data = {
       token,
-      expiresIn: process.env.JWT_EXPIRES_IN,
+      expiresIn: process.env.JWT_COOKIE_EXPIRES_IN,
       user: {
         _id: user._id,
         email: user.email,

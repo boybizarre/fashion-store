@@ -51,7 +51,7 @@ export default function AdminAddNewProduct() {
     }
   }, [updatedProduct]);
 
-  console.log(updatedProduct);
+  // console.log(updatedProduct);
 
   // HANDLING IMAGE
   async function handleImage(e: any) {

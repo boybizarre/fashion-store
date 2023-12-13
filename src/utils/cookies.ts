@@ -4,11 +4,16 @@ export const setCookie = (
   value: string,
   expiresInSeconds: number
 ) => {
+
+  console.log(expiresInSeconds);
+
   const expirationTime = new Date().getTime() + expiresInSeconds * 1000;
   const expirationDate = new Date(expirationTime);
 
   // Convert the expirationDate to a UTC string
   const expires = `expires=${expirationDate.toUTCString()}`;
+
+  console.log(expires, 'cooke expires');
 
   // Create the cookie string
   const cookieString = `${name}=${value}; ${expires};`;
@@ -43,7 +48,7 @@ export const clearCookie = (name: string) => {
   const cookieString = `${name}=; Max-Age=${0}; path=/; domain=${
     window.location.hostname
   }`;
-
+ 
   // Set the cookie with an expired date
   document.cookie = cookieString;
 };

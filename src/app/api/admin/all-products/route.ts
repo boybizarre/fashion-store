@@ -17,7 +17,7 @@ export async function GET(req: Request) {
     } else {
       return NextResponse.json({
         success: false,
-        status: 204,
+        status: 404,
         message: 'No products found.',
       });
     }

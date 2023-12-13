@@ -106,3 +106,19 @@ export const productByCategory = async (category: string) => {
     console.log(error);
   }
 };
+
+export const productById = async (id: string) => {
+  try {
+    const res = await fetch(
+      `http://localhost:3000/api/admin/product-by-id?id=${id}`,
+      {
+        method: 'GET',
+        cache: 'no-store',
+      }
+    );
+
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};

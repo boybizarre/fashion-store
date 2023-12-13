@@ -2,6 +2,7 @@ import connectToDB from '@/config/db';
 import Joi from 'joi';
 import { NextResponse } from 'next/server';
 import Product from '@/models/product';
+import AuthUser from '@/middleware/AuthUser';
 
 // Joi schema validator
 const AddNewProductSchema = Joi.object({
@@ -22,9 +23,11 @@ export const POST = async (req: Request) => {
   try {
     await connectToDB();
 
-    const user = 'admin';
+    const user = await AuthUser(req);
 
-    if (user === 'admin') {
+    console.log(user);
+
+    if (user?.role === 'admin') {
       const data = await req.json();
 
       const {
