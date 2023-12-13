@@ -5,8 +5,6 @@ import { NextResponse } from 'next/server';
 import Product from '@/models/product';
 
 
-
-
 export const dynamic = 'force-dynamic';
 
 export async function PUT(req: Request) {
@@ -15,7 +13,7 @@ export async function PUT(req: Request) {
     await connectToDB();
     const data = await req.json()
 
-    const { _id, name, price, description, category, size, deliveryInfo, onSale, priceDrop, imageUrl } = data;
+    const { _id, name, price, description, category, sizes, deliveryInfo, onSale, priceDrop, imageUrl } = data;
 
     const updatedProduct = await Product.findOneAndUpdate(
       { _id },
@@ -24,7 +22,7 @@ export async function PUT(req: Request) {
         price,
         description,
         category,
-        size,
+        sizes,
         deliveryInfo,
         onSale,
         priceDrop,

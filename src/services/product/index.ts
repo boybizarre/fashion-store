@@ -78,7 +78,7 @@ export const updateProduct = async (formData: productType) => {
 export const deleteProduct = async (id: string) => {
   try {
     const token = getCookie('auth_token');
-    const res = await fetch(`/api/admin/update-product?id=${id}`, {
+    const res = await fetch(`/api/admin/delete-product?id=${id}`, {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json',
@@ -87,6 +87,21 @@ export const deleteProduct = async (id: string) => {
     });
 
     return await res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const productByCategory = async (category: string) => {
+  try {
+    const res = await fetch(
+      `http://localhost:3000/api/admin/product-by-category?category=${category}`,
+      {
+        method: 'GET',
+        cache: 'no-store',
+      }
+    );
+    return res.json();
   } catch (error) {
     console.log(error);
   }

@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 
 // components
 import InputComponent from '@/components/FormElements/InputComponent';
-import ComponentLevelLoader from '@/components/Loader/componentLevelLoader';
+import ComponentLevelLoader from '@/components/Loader/ComponentLevelLoader';
 
 // render
 export default function Login() {

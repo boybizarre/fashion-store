@@ -1,5 +1,4 @@
 import connectToDB from '@/config/db';
-import Joi from 'joi';
 import { NextResponse } from 'next/server';
 import Product from '@/models/product';
 

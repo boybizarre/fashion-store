@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import TileComponent from '@/components/FormElements/TileComponent';
 import InputComponent from '@/components/FormElements/InputComponent';
 import SelectComponent from '@/components/FormElements/SelectComponent';
-import ComponentLevelLoader from '@/components/Loader/componentLevelLoader';
+import ComponentLevelLoader from '@/components/Loader/ComponentLevelLoader';
 
 import { AvailableSizes, adminAddProductFormControls } from '@/utils/options';
 import { uploadImageToFirebase } from '@/utils/uploadImage';
