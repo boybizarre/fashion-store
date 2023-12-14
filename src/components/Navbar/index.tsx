@@ -3,12 +3,13 @@
 import { useState, Fragment, useContext, useEffect } from 'react';
 import { adminNavOptions, navOptions } from '@/utils/options';
 import { Context as AppContext } from '@/context';
-import { AppContextType, userType } from '@/types';
+import { AppContextType } from '@/types';
 import { usePathname, useRouter } from 'next/navigation';
 
 // components
 import CommonModal from '../CommonModal';
 import { clearCookie } from '@/utils/cookies';
+import CartModal from '../CartModal';
 
 // types
 interface NavItemsProps {
@@ -60,9 +61,10 @@ export default function Navbar() {
   const pathName = usePathname();
 
   const {
-    state: { isAuthenticated, user, updatedProduct },
+    state: { isAuthenticated, user, updatedProduct, showCartModal },
     setAuth,
     setUpdatedProduct,
+    setShowCartModal,
   } = useContext<AppContextType>(AppContext);
 
   // console.log(user, isAuthenticated, 'navbar');
@@ -76,7 +78,7 @@ export default function Navbar() {
 
   const isAdminView = pathName.includes('admin-view');
 
-  console.log(pathName);
+  // console.log(pathName);
 
   useEffect(() => {
     if (pathName !== '/admin-view/add-product' && updatedProduct !== null) {
@@ -101,7 +103,7 @@ export default function Navbar() {
             {!isAdminView && isAuthenticated ? (
               <Fragment>
                 <button className='button'> Account </button>
-                <button className='button'> Cart </button>
+                <button onClick={() => setShowCartModal(true)} className='button'> Cart </button>
               </Fragment>
             ) : null}
             {user?.role === 'admin' ? (
@@ -170,6 +172,7 @@ export default function Navbar() {
         show={showNavModal}
         setShow={setShowNavModal}
       />
+      {showCartModal && <CartModal />}
     </>
   );
 }

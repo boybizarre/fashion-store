@@ -21,17 +21,36 @@ export interface productType {
   imageUrl: string;
 }
 
-// context types
+export interface cartType {
+  _id?: string,
+  userID: string,
+  productID: productType,
+  quantity?: number,
+}
+
+// before fields are being populated
+export interface cartTypeObjectId {
+  _id?: string,
+  userID: string,
+  productID: string,
+  quantity?: number,
+}
+
+// context and state types
 export interface AppContextType {
   setAuth: (auth: boolean, user: userType | null) => void;
   setPageLevelLoader: (loading: boolean) => void;
+  setShowCartModal: (loading: boolean) => void;
   setComponentLevelLoader: (loading: boolean, id?: string) => void;
   setUpdatedProduct: (product: productType | null) => void;
+  setCartItems: (product: productType ) => void;
   state: AppStateType;
 }
 
 export interface AppStateType {
-  user: userType;
+  user: userType | null;
+  showCartModal: boolean,
+  cartItems: cartType[],
   updatedProduct: productType,
   pageLevelLoader: boolean;
   componentLevelLoader: {

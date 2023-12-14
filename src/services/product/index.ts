@@ -1,10 +1,11 @@
 import { productType } from '@/types/index';
 import { getCookie } from '@/utils/cookies';
 
+const token = getCookie('auth_token');
+
 //add a new product service
 export const addNewProduct = async (formData: productType) => {
   try {
-    const token = getCookie('auth_token');
     const res = await fetch('/api/admin/add-product', {
       method: 'POST',
       headers: {
@@ -59,7 +60,6 @@ export const getAllProducts = async () => {
 
 export const updateProduct = async (formData: productType) => {
   try {
-    const token = getCookie('auth_token');
     const res = await fetch('/api/admin/update-product', {
       method: 'PUT',
       headers: {
@@ -77,7 +77,6 @@ export const updateProduct = async (formData: productType) => {
 
 export const deleteProduct = async (id: string) => {
   try {
-    const token = getCookie('auth_token');
     const res = await fetch(`/api/admin/delete-product?id=${id}`, {
       method: 'DELETE',
       headers: {

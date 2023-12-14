@@ -1,7 +1,7 @@
 'use client';
 
 import createDataContext from './createDataContext';
-import { userType, AppStateType, productType } from '@/types';
+import { userType, AppStateType, productType, cartType } from '@/types';
 
 const reducer = (state: AppStateType, action: any) => {
   switch (action.type) {
@@ -33,6 +33,18 @@ const reducer = (state: AppStateType, action: any) => {
         ...state,
         updatedProduct: action.payload,
       };
+
+    case 'SET_CART_MODAL':
+      return {
+        ...state,
+        showCartModal: action.payload,
+      };
+
+    case 'SET_CART_ITEMS':
+      return {
+        ...state,
+        cartItems: action.payload,
+      }
   }
 };
 
@@ -74,17 +86,42 @@ const setUpdatedProduct =
     });
   };
 
+const setShowCartModal = (dispatch: React.Dispatch<any>) => (val: boolean) => {
+  dispatch({
+    type: 'SET_CART_MODAL',
+    payload: val,
+  });
+};
+
+const setCartItems = (dispatch: React.Dispatch<any>) => (cartItems: cartType[]) => {
+  // cartItems.forEach((item: cartType) => {
+    dispatch({
+      type: 'SET_CART_ITEMS',
+      payload: cartItems,
+    });
+  // });
+};
+
 export const { Provider, Context } = createDataContext(
   reducer,
-  { setAuth, setPageLevelLoader, setComponentLevelLoader, setUpdatedProduct },
+  {
+    setAuth,
+    setPageLevelLoader,
+    setComponentLevelLoader,
+    setUpdatedProduct,
+    setShowCartModal,
+    setCartItems,
+  },
   {
     isAuthenticated: null,
-    user: {},
+    user: null,
     updatedProduct: null,
-    pageLevelLoader: false,
+    pageLevelLoader: true,
     componentLevelLoader: {
       loading: false,
       id: '',
     },
+    showCartModal: false,
+    cartItems: [],
   }
 );

@@ -10,6 +10,7 @@ import { useContext } from 'react';
 import { Context as AppContext } from '@/context';
 import { AppContextType } from '@/types';
 import { toast } from 'react-toastify';
+import { addToCart } from '@/services/cart';
 
 export default function ProductButtons({ item }: { item: productType }) {
   const pathName = usePathname();
@@ -17,9 +18,9 @@ export default function ProductButtons({ item }: { item: productType }) {
 
   // context and state
   const {
-    state: { componentLevelLoader },
+    state: { componentLevelLoader, user },
     setUpdatedProduct,
-    setComponentLevelLoader,
+    setComponentLevelLoader, setShowCartModal
   } = useContext<AppContextType>(AppContext);
 
   const isAdminView = pathName.includes('admin-view');
@@ -39,6 +40,35 @@ export default function ProductButtons({ item }: { item: productType }) {
       toast.error(res.message);
     }
   }
+
+  // USER ID is null when logged out, come back to fix bug
+  async function handleAddToCart(item: productType) {
+
+    if (user === null) {
+      toast.error('You need to login to add to cart!')
+      return router.push('/login');
+    }
+
+    setComponentLevelLoader(true, item._id);
+
+    console.log(item._id);
+
+    const res = await addToCart({ productID: item._id as string, userID: user._id as string });
+
+    console.log(res);
+
+    if (res.success) {
+      toast.success(res.message);
+      setComponentLevelLoader(false);
+      setShowCartModal(true);
+    } else {
+      toast.error(res.message);
+      setComponentLevelLoader(false);
+      setShowCartModal(true);
+    }
+  }
+
+  // console.log(componentLevelLoader, user);
 
   return isAdminView ? (
     <>
@@ -70,8 +100,18 @@ export default function ProductButtons({ item }: { item: productType }) {
     </>
   ) : (
     <>
-      <button className='mt-1.5 flex w-full justify-center bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white'>
-        Add To Cart
+      <button onClick={() => handleAddToCart(item)} className='mt-1.5 flex w-full justify-center bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white'>
+        {componentLevelLoader &&
+        componentLevelLoader.loading &&
+        item._id === componentLevelLoader.id ? (
+          <ComponentLevelLoader
+            text={'Adding to Cart'}
+            color={'#ffffff'}
+            loading={componentLevelLoader.loading}
+          />
+        ) : (
+          'Add To Cart'
+        )}
       </button>
     </>
   );

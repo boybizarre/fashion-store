@@ -2,21 +2,21 @@
 export const setCookie = (
   name: string,
   value: string,
-  expiresInSeconds: number
+  expiresInMinutes: number
 ) => {
 
-  console.log(expiresInSeconds);
+  console.log(expiresInMinutes);
 
-  const expirationTime = new Date().getTime() + expiresInSeconds * 1000;
+  const expirationTime = new Date().getTime() + expiresInMinutes * 60 * 1000;
   const expirationDate = new Date(expirationTime);
 
   // Convert the expirationDate to a UTC string
   const expires = `expires=${expirationDate.toUTCString()}`;
 
-  console.log(expires, 'cooke expires');
+  console.log(expires, 'cookie expires');
 
   // Create the cookie string
-  const cookieString = `${name}=${value}; ${expires};`;
+  const cookieString = `${name}=${value}; ${expires}; secure;`;
 
   // Set the cookie
   document.cookie = cookieString;
