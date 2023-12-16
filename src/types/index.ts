@@ -36,6 +36,16 @@ export interface cartTypeObjectId {
   quantity?: number,
 }
 
+export interface addressType {
+  _id?: string;
+  userID?: string;
+  fullName: string;
+  address: string;
+  city: string;
+  country: string;
+  postalCode: string;
+}
+
 // context and state types
 export interface AppContextType {
   setAuth: (auth: boolean, user: userType | null) => void;
@@ -43,19 +53,23 @@ export interface AppContextType {
   setShowCartModal: (loading: boolean) => void;
   setComponentLevelLoader: (loading: boolean, id?: string) => void;
   setUpdatedProduct: (product: productType | null) => void;
-  setCartItems: (product: productType ) => void;
+  setCartItems: (product: productType) => void;
+  setAddresses: (product: addressType[]) => void;
+  setAddressFormData: (product: addressType) => void;
   state: AppStateType;
 }
 
 export interface AppStateType {
   user: userType | null;
-  showCartModal: boolean,
-  cartItems: cartType[],
-  updatedProduct: productType,
+  showCartModal: boolean;
+  cartItems: cartType[];
+  updatedProduct: productType;
   pageLevelLoader: boolean;
   componentLevelLoader: {
     loading: boolean;
     id: string;
   };
   isAuthenticated: boolean;
+  addresses: addressType[];
+  addressFormData: addressType;
 }

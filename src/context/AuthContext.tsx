@@ -7,11 +7,13 @@ import { getCookie } from '@/utils/cookies';
 
 export const AuthContext = ({ children }: { children: React.ReactNode }) => {
   const {
-    state: { isAuthenticated },
+    state: { isAuthenticated, user },
     setAuth,
+    setCartItems,
   } = useContext<AppContextType>(AppContext);
 
-  // console.log(isAuthenticated, 'auth home page');
+  console.log(isAuthenticated, 'auth home page');
+  console.log(user, 'user home page');
 
   useEffect(() => {
     // console.log(getCookie('auth_token'), 'cookie home page');
@@ -22,7 +24,9 @@ export const AuthContext = ({ children }: { children: React.ReactNode }) => {
     
     if (getCookie('auth_token') !== null) {
       const user = JSON.parse(localStorage.getItem('user') as string) || {};
+      const cartItems = JSON.parse(localStorage.getItem('cartItems') as string) || [];
       setAuth(true, user);
+      setCartItems(cartItems);
     } else {
       setAuth(false, null);
     }

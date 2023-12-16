@@ -13,20 +13,21 @@ const schema = Joi.object({
 export const dynamic = 'force-dynamic';
 
 export const POST = async (req: Request) => {
-  await connectToDB();
-
-  const { email, password } = await req.json();
-
-  const { error } = schema.validate({ email, password });
-
-  if (error) {
-    return NextResponse.json({
-      success: false,
-      message: error.details[0].message,
-    });
-  }
-
+  
   try {
+    await connectToDB();
+  
+    const { email, password } = await req.json();
+  
+    const { error } = schema.validate({ email, password });
+  
+    if (error) {
+      return NextResponse.json({
+        success: false,
+        message: error.details[0].message,
+      });
+    }
+    
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
       return NextResponse.json({
@@ -62,7 +63,7 @@ export const POST = async (req: Request) => {
       data,
     });
   } catch (err: any) {
-    console.log('Error logging in user!');
+    console.log(err, 'Error logging in user!');
     return NextResponse.json({
       success: false,
       message: 'Something went wrong! Please try again later!',

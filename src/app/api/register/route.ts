@@ -1,7 +1,7 @@
 import connectToDB from '@/config/db';
 import Joi from 'joi';
-import { NextResponse } from 'next/server';
 import User from '@/models/user';
+import { NextResponse } from 'next/server';
 
 // validator
 const schema = Joi.object({

@@ -1,9 +1,11 @@
 'use client';
 
-import { productType, AppContextType } from '@/types';
-
 import { useState, useContext, useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { Context as AppContext } from '@/context';
+import { productType, AppContextType } from '@/types';
+import { toast } from 'react-toastify';
+import { addToCart } from '@/services/cart';
 
 // components
 import InputComponent from '@/components/FormElements/InputComponent';
@@ -11,22 +13,48 @@ import ComponentLevelLoader from '@/components/Loader/ComponentLevelLoader';
 
 // this component takes an item that this card is going to render its details
 export default function CommonDetails({ item }: { item: productType }) {
+  const router = useRouter();
+
   // context and state
   const {
     state: { isAuthenticated, user, componentLevelLoader },
     setAuth,
     setComponentLevelLoader,
+    setShowCartModal,
   } = useContext<AppContextType>(AppContext);
 
-  const handleAddToCart = (item: productType) => {
-    
-  }
+  const handleAddToCart = async (item: productType) => {
+    if (user === null) {
+      toast.error('You need to login to add to cart!');
+      return router.push('/login');
+    }
+
+    setComponentLevelLoader(true);
+
+    console.log(item._id);
+
+    const res = await addToCart({
+      productID: item._id as string,
+      userID: user._id as string,
+    });
+
+    console.log(res);
+
+    if (res.success) {
+      toast.success(res.message);
+      setComponentLevelLoader(false);
+      setShowCartModal(true);
+    } else {
+      toast.error(res.message);
+      setComponentLevelLoader(false);
+      setShowCartModal(true);
+    }
+  };
 
   return (
     <section className='mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8'>
       <div className='container mx-auto px-4'>
         <div className='lg:col-gap-12 xl:col-gap-16 mt-8 grid grid-cols-1 gap-12 lg:mt-12 lg:grid-cols-5 lg:gap-16'>
-
           {/* images */}
           <div className='lg:col-span-3 lg:row-end-1'>
             <div className='lg:flex lg:items-start'>
@@ -76,7 +104,6 @@ export default function CommonDetails({ item }: { item: productType }) {
               {item && item.name}
             </h1>
 
-            
             <div className='mt-10 flex flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0'>
               {/* item price */}
               <div className='flex items-end'>

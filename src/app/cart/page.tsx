@@ -31,7 +31,6 @@ export default function Cart() {
       // setting cart items from database to state
       setCartItems(res.data);
       setPageLevelLoader(false);
-      false;
       localStorage.setItem('cartItems', JSON.stringify(res.data));
     }
   }

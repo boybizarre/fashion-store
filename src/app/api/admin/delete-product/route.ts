@@ -35,7 +35,7 @@ export async function DELETE(req: Request) {
     } else {
       return NextResponse.json({
         success: false,
-        message: 'You are not authenticated!',
+        message: 'You are not authorized !',
       });
     }
   } catch (error: any) {

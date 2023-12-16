@@ -1,7 +1,13 @@
 'use client';
 
 import createDataContext from './createDataContext';
-import { userType, AppStateType, productType, cartType } from '@/types';
+import {
+  userType,
+  AppStateType,
+  productType,
+  cartType,
+  addressType,
+} from '@/types';
 
 const reducer = (state: AppStateType, action: any) => {
   switch (action.type) {
@@ -44,7 +50,26 @@ const reducer = (state: AppStateType, action: any) => {
       return {
         ...state,
         cartItems: action.payload,
-      }
+      };
+
+    case 'SET_ADDRESSES':
+      return {
+        ...state,
+        addresses: action.payload,
+      };
+
+    // case 'SET_ADDRESS_FORM_DATA':
+    //   return {
+    //     ...state,
+    //     addressFormData: {
+    //       ...state.addressFormData,
+    //       fullName: action.payload.fullName,
+    //       city: action.payload.city,
+    //       country: action.payload.country,
+    //       postalCode: action.payload.postalCode,
+    //       address: action.payload.address,
+    //     },
+    //   };
   }
 };
 
@@ -93,14 +118,37 @@ const setShowCartModal = (dispatch: React.Dispatch<any>) => (val: boolean) => {
   });
 };
 
-const setCartItems = (dispatch: React.Dispatch<any>) => (cartItems: cartType[]) => {
-  // cartItems.forEach((item: cartType) => {
+const setCartItems =
+  (dispatch: React.Dispatch<any>) => (cartItems: cartType[]) => {
+    // cartItems.forEach((item: cartType) => {
     dispatch({
       type: 'SET_CART_ITEMS',
       payload: cartItems,
     });
-  // });
-};
+    // });
+  };
+
+const setAddresses =
+  (dispatch: React.Dispatch<any>) => (addresses: addressType[]) => {
+    dispatch({
+      type: 'SET_ADDRESSES',
+      payload: addresses,
+    });
+  };
+
+// const setAddressFormData =
+//   (dispatch: React.Dispatch<any>) => (addressFormData: addressType) => {
+//     dispatch({
+//       type: 'SET_ADDRESS_FORM_DATA',
+//       payload: {
+//         fullName: addressFormData.fullName,
+//         city: addressFormData.city,
+//         country: addressFormData.country,
+//         postalCode: addressFormData.postalCode,
+//         address: addressFormData.address,
+//       },
+//     });
+//   };
 
 export const { Provider, Context } = createDataContext(
   reducer,
@@ -111,6 +159,8 @@ export const { Provider, Context } = createDataContext(
     setUpdatedProduct,
     setShowCartModal,
     setCartItems,
+    setAddresses,
+    // setAddressFormData,
   },
   {
     isAuthenticated: null,
@@ -123,5 +173,13 @@ export const { Provider, Context } = createDataContext(
     },
     showCartModal: false,
     cartItems: [],
+    addresses: [],
+    // addressFormData: {
+    //   fullName: '',
+    //   city: '',
+    //   country: '',
+    //   postalCode: '',
+    //   address: '',
+    // },
   }
 );

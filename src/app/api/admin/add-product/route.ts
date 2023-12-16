@@ -79,7 +79,7 @@ export const POST = async (req: Request) => {
     } else {
       return NextResponse.json({
         success: false,
-        message: 'You are not authorized!',
+        message: 'You are not authorized !',
       });
     }
   } catch (err: any) {
