@@ -1,6 +1,6 @@
 import { useContext, Fragment, useEffect } from 'react';
 import { Context as AppContext } from '@/context';
-import { AppContextType } from '@/types';
+import { AppContextType, cartType } from '@/types';
 import { deleteFromCart, getAllCartItems } from '@/services/cart';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
@@ -25,12 +25,32 @@ export default function CartModal() {
     console.log(res);
 
     if (res.success) {
+      const updatedData =
+        res.data && res.data.length
+          ? res.data.map((item: cartType) => ({
+              ...item,
+              productID: {
+                ...item.productID,
+                price:
+                  item.productID.onSale === 'yes'
+                    ? parseInt(
+                        (
+                          item.productID.price -
+                          item.productID.price *
+                            (item.productID.priceDrop / 100)
+                        ).toFixed(2)
+                      )
+                    : item.productID.price,
+              },
+            }))
+          : [];
+
       // setting cart items from database to state
-      setCartItems(res.data);
-      localStorage.setItem('cart', JSON.stringify(res.data));
+      setCartItems(updatedData);
+      localStorage.setItem('cartItems', JSON.stringify(updatedData));
     }
   }
-  
+
   useEffect(() => {
     if (user !== null) extractAllCartItems();
   }, [user]);
@@ -53,7 +73,6 @@ export default function CartModal() {
       setComponentLevelLoader(false);
     }
   };
-
 
   return (
     <CommonModal
@@ -118,10 +137,13 @@ export default function CartModal() {
       }
       buttonComponent={
         <Fragment>
-          <button onClick={() => {
-            setShowCartModal(false);
-            router.push('/cart');
-          }} className='mt-1.5 w-full inline-block bg-black text-white px-5 py-3 text-xs font-medium uppercase tracking-wide'>
+          <button
+            onClick={() => {
+              setShowCartModal(false);
+              router.push('/cart');
+            }}
+            className='mt-1.5 w-full inline-block bg-black text-white px-5 py-3 text-xs font-medium uppercase tracking-wide'
+          >
             Go to Cart
           </button>
           <button

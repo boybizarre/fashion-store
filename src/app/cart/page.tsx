@@ -4,7 +4,7 @@ import { useEffect, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import { deleteFromCart, getAllCartItems } from '@/services/cart';
 import { Context as AppContext } from '@/context';
-import { AppContextType } from '@/types';
+import { AppContextType, cartType } from '@/types';
 import { toast } from 'react-toastify';
 
 import { PulseLoader } from 'react-spinners';
@@ -28,10 +28,30 @@ export default function Cart() {
     console.log(res);
 
     if (res.success) {
-      // setting cart items from database to state
-      setCartItems(res.data);
+      const updatedData =
+        res.data && res.data.length
+          ? res.data.map((item: cartType) => ({
+              ...item,
+              productID: {
+                ...item.productID,
+                price:
+                  item.productID.onSale === 'yes'
+                    ? parseInt(
+                        (
+                          item.productID.price -
+                          item.productID.price *
+                            (item.productID.priceDrop / 100)
+                        ).toFixed(2)
+                      )
+                    : item.productID.price,
+              },
+            }))
+          : [];
+
+      // calculating discount price and setting cart items from to state
+      setCartItems(updatedData);
       setPageLevelLoader(false);
-      localStorage.setItem('cartItems', JSON.stringify(res.data));
+      localStorage.setItem('cartItems', JSON.stringify(updatedData));
     }
   }
 

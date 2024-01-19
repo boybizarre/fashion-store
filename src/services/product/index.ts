@@ -52,7 +52,7 @@ export const getAllProducts = async () => {
       cache: 'no-store',
     });
 
-    return await res.json();
+    return res.json();
   } catch (error) {
     console.log(error);
   }

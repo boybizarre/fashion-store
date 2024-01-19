@@ -7,6 +7,7 @@ import {
   productType,
   cartType,
   addressType,
+  orderType,
 } from '@/types';
 
 const reducer = (state: AppStateType, action: any) => {
@@ -56,6 +57,12 @@ const reducer = (state: AppStateType, action: any) => {
       return {
         ...state,
         addresses: action.payload,
+      };
+
+    case 'SET_ORDERS':
+      return {
+        ...state,
+        allOrders: action.payload,
       };
 
     // case 'SET_ADDRESS_FORM_DATA':
@@ -136,6 +143,14 @@ const setAddresses =
     });
   };
 
+const setAllOrders =
+  (dispatch: React.Dispatch<any>) => (orders: orderType[]) => {
+    dispatch({
+      type: 'SET_ORDERS',
+      payload: orders,
+    });
+  };
+
 // const setAddressFormData =
 //   (dispatch: React.Dispatch<any>) => (addressFormData: addressType) => {
 //     dispatch({
@@ -160,13 +175,14 @@ export const { Provider, Context } = createDataContext(
     setShowCartModal,
     setCartItems,
     setAddresses,
+    setAllOrders,
     // setAddressFormData,
   },
   {
     isAuthenticated: null,
     user: null,
     updatedProduct: null,
-    pageLevelLoader: true,
+    pageLevelLoader: false,
     componentLevelLoader: {
       loading: false,
       id: '',
@@ -174,6 +190,7 @@ export const { Provider, Context } = createDataContext(
     showCartModal: false,
     cartItems: [],
     addresses: [],
+    allOrders: [],
     // addressFormData: {
     //   fullName: '',
     //   city: '',
